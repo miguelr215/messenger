@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var mongoose = require('mongoose');
 
 // using index.html to create the static html structure
 app.use(express.static(__dirname));
@@ -10,6 +11,8 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json());
 // use body-parser so posts from browser to back-end can be read
 app.use(bodyParser.urlencoded({extended: false}));
+
+var dbURL = 'mongodb+srv://cluster0.amz15.mongodb.net/database0';
 
 // create placeholder array message list
 var messages = [
@@ -33,6 +36,11 @@ app.post('/messages', (req, res) => {
 io.on('connection', (socket) => {
     console.log('user connected');
 });
+
+// use mongooose to connect node to MongoDB
+// mongoose.connect(dbURL, (err) => {
+//     console.log('mongoDB connection', err);
+// });
 
 // var server = app.listen(3000, () => {
 //     console.log('server is listening on port', server.address().port);
